@@ -1,0 +1,46 @@
+---
+- type: replace
+  path: /releases/-
+  value:
+    name: bosh-openstack-cpi
+    url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-openstack-cpi-release?v=27
+    sha1: 85e6244978f775c888bbd303b874a2c158eb43c4
+
+- type: replace
+  path: /resource_pools/name=vms/stemcell?
+  value:
+    url: https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-trusty-go_agent?v=3312
+    sha1: 36dd5035c3868aa9f2da32291e6338636b63c345
+
+# Configure sizes
+- type: replace
+  path: /resource_pools/name=vms/cloud_properties?
+  value:
+    instance_type: m1.xlarge
+    availability_zone: ((az))
+
+# Add CPI job
+- type: replace
+  path: /cloud_provider/template?
+  value:
+    name: openstack_cpi
+    release: bosh-openstack-cpi
+
+- type: replace
+  path: /cloud_provider/ssh_tunnel?
+  value:
+    host: ((external_ip))
+    port: 22
+    user: vcap
+    private_key: ((private_key))
+
+- type: replace
+  path: /cloud_provider/properties/openstack?
+  value:
+    auth_url: ((auth_url))
+    username: ((openstack_username))
+    api_key: ((openstack_password))
+    tenant: ((tenant))
+    region: ((region))
+    default_key_name: ((default_key_name))
+    default_security_groups: ((default_security_groups))

@@ -1,0 +1,44 @@
+---
+name: jumpbox
+
+releases: []
+
+resource_pools:
+- name: vms
+  network: private
+
+networks:
+- name: private
+  type: manual
+  subnets:
+  - range: ((internal_cidr))
+    gateway: ((internal_gw))
+    static: [((internal_ip))]
+    dns: [8.8.8.8]
+- name: public
+  type: vip
+
+instance_groups:
+- name: jumpbox
+  instances: 1
+  jobs: [] # todo remove agent off of machine / configure iptables?
+  resource_pool: vms
+  networks:
+  - name: private
+    static_ips: [((internal_ip))]
+    default: [dns, gateway]
+  - name: public
+    static_ips: [((external_ip))]
+
+cloud_provider:
+  mbus: https://mbus:((mbus_bootstrap_password))@((external_ip)):6868
+  properties:
+    agent: {mbus: "https://mbus:((mbus_bootstrap_password))@0.0.0.0:6868"}
+    blobstore: {provider: local, path: /var/vcap/micro_bosh/data/cache}
+    ntp:
+    - 0.pool.ntp.org
+    - 1.pool.ntp.org
+
+variables:
+- name: mbus_bootstrap_password
+  type: password
