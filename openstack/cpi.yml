@@ -16,7 +16,7 @@
 - type: replace
   path: /resource_pools/name=vms/cloud_properties?
   value:
-    instance_type: m1.xlarge
+    instance_type: m1.small
     availability_zone: ((az))
 
 # Add CPI job

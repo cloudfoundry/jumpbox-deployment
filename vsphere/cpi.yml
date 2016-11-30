@@ -16,8 +16,8 @@
 - type: replace
   path: /resource_pools/name=vms/cloud_properties?
   value:
-    cpu: 2
-    ram: 4_096
+    cpu: 1
+    ram: 1_024
     disk: 20_000
 
 - type: replace

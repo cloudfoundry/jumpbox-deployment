@@ -18,7 +18,7 @@
   value:
     zone: ((zone))
     machine_type: n1-standard-1
-    root_disk_size_gb: 40
+    root_disk_size_gb: 20
     root_disk_type: pd-standard
     service_account: ((service_account))
 
