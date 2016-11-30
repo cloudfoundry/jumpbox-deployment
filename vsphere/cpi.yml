@@ -32,7 +32,7 @@
     release: bosh-vsphere-cpi
 
 - type: replace
-  path: /cloud_provider/properties/vsphere?
+  path: /cloud_provider/properties/vcenter?
   value:
     address: ((vcenter_ip))
     user: ((vcenter_user))
