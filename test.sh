@@ -42,6 +42,7 @@ bosh interpolate jumpbox.yml --var-errs \
   -v zone=test \
   -v network=test \
   -v subnetwork=test \
+  -v tags="[internal, no-ip]" \
   > /dev/null
 
 echo "- Openstack"

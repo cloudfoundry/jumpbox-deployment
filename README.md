@@ -1,6 +1,6 @@
 # jumpbox-deployment
 
-Deploy single vanilla jumpbox machine. 
+Deploy single vanilla jumpbox machine.
 
 IMPORTANT: Make sure to configure security group to allow only necessary traffic! Better yet drop all incoming traffic when jumpbox is not being used.
 

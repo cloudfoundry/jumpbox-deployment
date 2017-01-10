@@ -17,10 +17,10 @@
   path: /resource_pools/name=vms/cloud_properties?
   value:
     zone: ((zone))
-    machine_type: n1-standard-1
+    machine_type: f1-micro
     root_disk_size_gb: 20
     root_disk_type: pd-standard
-    service_account: ((service_account))
+    tags: ((tags))
 
 - type: replace
   path: /networks/name=private/subnets/0/cloud_properties?
@@ -28,7 +28,6 @@
     network_name: ((network))
     subnetwork_name: ((subnetwork))
     ephemeral_external_ip: false
-    tags: [internal, no-ip]
 
 # Add CPI job
 - type: replace
