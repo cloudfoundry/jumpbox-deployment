@@ -3,9 +3,9 @@ name: jumpbox
 
 releases:
 - name: os-conf
-  version: 9
-  url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=9
-  sha1: be221991e8c12bbf4679df03b59dee61f3864e8e
+  version: 10
+  url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=10
+  sha1: 29e30fe7941dafc682c8eb250b78f235a552ddfe
 
 resource_pools:
 - name: vms
@@ -29,7 +29,9 @@ instance_groups:
 - name: jumpbox
   instances: 1
   jobs:
-  # todo remove agent off of machine / configure iptables?
+  - name: disable_agent
+    release: os-conf
+    properties: {}
   - name: user_add
     release: os-conf
     properties:
