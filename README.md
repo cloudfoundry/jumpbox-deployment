@@ -1,6 +1,6 @@
 # jumpbox-deployment
 
-Deploy single vanilla jumpbox machine. 
+Deploy single vanilla jumpbox machine. Works well with BOSH CLI SOCKS5 proxying.
 
 IMPORTANT: Make sure to configure security group to allow only necessary traffic! Better yet drop all incoming traffic when jumpbox is not being used.
 
@@ -13,19 +13,19 @@ IMPORTANT: Make sure to configure security group to allow only necessary traffic
 
 ## Example on AWS
 
-Requires new [BOSH CLI v0.0.121+](https://github.com/cloudfoundry/bosh-cli).
+Requires new [BOSH CLI v0.0.146+](https://github.com/cloudfoundry/bosh-cli).
 
 ```
-$ cd ~/workspace
+$ git clone https://github.com/cppforlife/jumpbox-deployment ~/jumpbox-deployment
 
-$ git clone https://github.com/cppforlife/jumpbox-deployment
+$ mkdir -p ~/deployments/jumpbox-1
 
-$ mkdir jumpbox-1 && cd jumpbox-1
+$ cd ~/deployments/jumpbox-1
 
 # Deploy a jumpbox -- ./creds.yml is generated automatically
-$ bosh create-env ~/workspace/jumpbox-deployment/jumpbox.yml \
+$ bosh create-env ~/jumpbox-deployment/jumpbox.yml \
   --state ./state.json \
-  --ops-file ~/workspace/jumpbox-deployment/aws/cpi.yml \
+  -o ~/jumpbox-deployment/aws/cpi.yml \
   --vars-store ./creds.yml \
   -v access_key_id=... \
   -v secret_access_key=... \
