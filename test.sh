@@ -40,6 +40,7 @@ bosh interpolate jumpbox.yml --var-errs \
   -v gcp_credentials_json=test \
   -v project_id=test \
   -v zone=test \
+  -v tags=[test] \
   -v network=test \
   -v subnetwork=test \
   > /dev/null
