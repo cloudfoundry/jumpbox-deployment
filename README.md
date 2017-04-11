@@ -69,7 +69,7 @@ Instead of running CLI *from* the jumpbox VM, you can use it as a proxy.
 
 ```
 # Start SOCKS5 proxy on your machine
-$ ssh -D 9999 jumpbox@... -i jumpbox.key &
+$ ssh -N -D 9999 jumpbox@... -i jumpbox.key &
 
 # Let CLI know about it
 $ export BOSH_ALL_PROXY=socks5://localhost:9999
