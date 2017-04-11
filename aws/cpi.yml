@@ -9,8 +9,8 @@
 - type: replace
   path: /resource_pools/name=vms/stemcell?
   value:
-    url: https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-trusty-go_agent?v=3312
-    sha1: ea1d210b58a12d957d0b9b6a6cc538262ee4a924
+    url: https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-trusty-go_agent?v=3363.15
+    sha1: 4a1eed3037a88a2b6516133d823cdb71bc9291c4
 
 # Configure AWS sizes
 - type: replace
