@@ -19,6 +19,11 @@
     instance_type: m1.small
     availability_zone: ((az))
 
+- type: replace
+  path: /networks/name=private/subnets/0/cloud_properties?
+  value:
+    net_id: ((net_id))
+
 # Add CPI job
 - type: replace
   path: /cloud_provider/template?

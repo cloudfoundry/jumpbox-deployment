@@ -20,14 +20,12 @@
     machine_type: n1-standard-1
     root_disk_size_gb: 20
     root_disk_type: pd-standard
-    service_account: ((service_account))
 
 - type: replace
   path: /networks/name=private/subnets/0/cloud_properties?
   value:
     network_name: ((network))
     subnetwork_name: ((subnetwork))
-    ephemeral_external_ip: false
     tags: ((tags))
 
 # Add CPI job
