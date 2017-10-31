@@ -3,9 +3,9 @@ name: jumpbox
 
 releases:
 - name: os-conf
-  version: 13
-  url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=13
-  sha1: 338732af10f00aa0a49327a3f7cbb4c90f93c09c
+  version: 18
+  url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=18
+  sha1: 78d79f08ff5001cc2a24f572837c7a9c59a0e796
 
 resource_pools:
 - name: vms
@@ -13,6 +13,10 @@ resource_pools:
   env:
     bosh:
       password: "*"
+
+disk_pools:
+- name: disks
+  disk_size: 65_536
 
 networks:
 - name: private
