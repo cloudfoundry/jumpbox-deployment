@@ -77,3 +77,7 @@ $ export BOSH_ALL_PROXY=socks5://localhost:9999
 # Access Director *thru* jumpbox (instead of being on the jumpbox)
 $ bosh -e bosh-1 env
 ```
+
+## Persistent home directories
+
+Your `jumpbox` user home folder can be placed on a persistent disk using the `-o operators/persistent-homes.yml` operator file.

@@ -1,0 +1,13 @@
+- type: replace
+  path: /instance_groups/name=jumpbox/jobs/name=user_add/properties/persistent_homes?
+  value: true
+
+- type: replace
+  path: /instance_groups/name=jumpbox/persistent_disk_pool?
+  value: disks
+
+- type: replace
+  path: /disk_pools?/-
+  value:
+    name: disks
+    disk_size: 65_536
