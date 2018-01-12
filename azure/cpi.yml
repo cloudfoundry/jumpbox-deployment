@@ -3,14 +3,14 @@
   path: /releases/-
   value:
     name: bosh-azure-cpi
-    url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-azure-cpi-release?v=29
-    sha1: 630901d22de58597ef8d5a23be9a5b7107d9ecb4
+    url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-azure-cpi-release?v=35.0.0
+    sha1: 0365a53fb68b647a7250c28a1c852a394ab0d79a
 
 - type: replace
   path: /resource_pools/name=vms/stemcell?
   value:
-    url: https://bosh.io/d/stemcells/bosh-azure-hyperv-ubuntu-trusty-go_agent?v=3445.11
-    sha1: c70b6854ce1551fbeecfebabfcd6df5215513cad
+    url: https://bosh.io/d/stemcells/bosh-azure-hyperv-ubuntu-trusty-go_agent?v=3468.17
+    sha1: dbda00669abca9ff9399b01626808dd0f8aa5587
 
 # Configure sizes
 - type: replace
