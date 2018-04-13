@@ -45,7 +45,9 @@
     auth_url: ((auth_url))
     username: ((openstack_username))
     api_key: ((openstack_password))
-    tenant: ((tenant))
+    domain: ((openstack_domain))
+    project: ((openstack_project))
     region: ((region))
     default_key_name: ((default_key_name))
     default_security_groups: ((default_security_groups))
+    human_readable_vm_names: true
