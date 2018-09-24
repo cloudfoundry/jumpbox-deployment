@@ -9,8 +9,8 @@
 - type: replace
   path: /resource_pools/name=vms/stemcell?
   value:
-    url: https://bosh.io/d/stemcells/bosh-azure-hyperv-ubuntu-trusty-go_agent?v=3468.17
-    sha1: dbda00669abca9ff9399b01626808dd0f8aa5587
+    url: https://bosh.io/d/stemcells/bosh-azure-hyperv-ubuntu-xenial-go_agent?v=97.17
+    sha1: 07e7f1c4b6927bcab73770f13496ce1751bbc7fc
 
 # Configure sizes
 - type: replace
