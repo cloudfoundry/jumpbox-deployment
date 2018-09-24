@@ -67,7 +67,8 @@ bosh create-env jumpbox.yml \
   -v openstack_username=test \
   -v private_key=test \
   -v region=test \
-  -v tenant=test \
+  -v openstack_domain=test \
+  -v openstack_project=test \
   > /dev/null
 
 echo "- vSphere"
