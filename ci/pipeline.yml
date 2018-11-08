@@ -46,132 +46,63 @@ jobs:
   - task: unit-test
     file: jumpbox-deployment/ci/tasks/unit-test.yml
 
-- name: bump-stemcell-aws
+- name: bump-stemcells
   serial: true
   public: false
   plan:
   - aggregate:
     - get: jumpbox-deployment
-    - get: stemcell
-      resource: stemcell-aws
+    - get: stemcell-aws
       trigger: true
       params:
         tarball: false
+    - get: stemcell-azure
+      trigger: true
+      params:
+        tarball: false
+    - get: stemcell-gcp
+      trigger: true
+      params:
+        tarball: false
+    - get: stemcell-openstack
+      trigger: true
+      params:
+        tarball: false
+    - get: stemcell-vsphere
+      trigger: true
+      params:
+        tarball: false
+  - task: same-version
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: cfinfrastructure/minimal
+      inputs:
+      - name: stemcell-aws
+      - name: stemcell-azure
+      - name: stemcell-gcp
+      - name: stemcell-vsphere
+      - name: stemcell-openstack
+      run:
+        path: bash
+        args:
+        - -c
+        - |
+          #!/bin/bash -exu
+
+          count="$(for v in $(ls stemcell-*/version); do cat $v; echo ""; done | sort | uniq | wc -l)"
+          if [[ "$count" != "1" ]]; then
+            echo "Stemcells not with same version!"
+            exit 1
+          fi
   - task: bump-stemcell
     file: jumpbox-deployment/ci/tasks/bump-stemcell.yml
-    params:
-      IAAS: aws
   - task: unit-test
     file: jumpbox-deployment/ci/tasks/unit-test.yml
     input_mapping:
       jumpbox-deployment: updated-jumpbox-deployment
-    params:
-      IAAS: aws
-  - put: jumpbox-deployment
-    params:
-      rebase: true
-      repository: updated-jumpbox-deployment
-
-
-- name: bump-stemcell-azure
-  serial: true
-  public: false
-  plan:
-  - aggregate:
-    - get: jumpbox-deployment
-    - get: stemcell
-      resource: stemcell-azure
-      trigger: true
-      params:
-        tarball: false
-  - task: bump-stemcell
-    file: jumpbox-deployment/ci/tasks/bump-stemcell.yml
-    params:
-      IAAS: azure
-  - task: unit-test
-    file: jumpbox-deployment/ci/tasks/unit-test.yml
-    input_mapping:
-      jumpbox-deployment: updated-jumpbox-deployment
-    params:
-      IAAS: azure
-  - put: jumpbox-deployment
-    params:
-      rebase: true
-      repository: updated-jumpbox-deployment
-
-- name: bump-stemcell-gcp
-  serial: true
-  public: false
-  plan:
-  - aggregate:
-    - get: jumpbox-deployment
-    - get: stemcell
-      resource: stemcell-gcp
-      trigger: true
-      params:
-        tarball: false
-  - task: bump-stemcell
-    file: jumpbox-deployment/ci/tasks/bump-stemcell.yml
-    params:
-      IAAS: gcp
-  - task: unit-test
-    file: jumpbox-deployment/ci/tasks/unit-test.yml
-    input_mapping:
-      jumpbox-deployment: updated-jumpbox-deployment
-    params:
-      IAAS: gcp
-  - put: jumpbox-deployment
-    params:
-      rebase: true
-      repository: updated-jumpbox-deployment
-
-- name: bump-stemcell-openstack
-  serial: true
-  public: false
-  plan:
-  - aggregate:
-    - get: jumpbox-deployment
-    - get: stemcell
-      resource: stemcell-openstack
-      trigger: true
-      params:
-        tarball: false
-  - task: bump-stemcell
-    file: jumpbox-deployment/ci/tasks/bump-stemcell.yml
-    params:
-      IAAS: openstack
-  - task: unit-test
-    file: jumpbox-deployment/ci/tasks/unit-test.yml
-    input_mapping:
-      jumpbox-deployment: updated-jumpbox-deployment
-    params:
-      IAAS: openstack
-  - put: jumpbox-deployment
-    params:
-      rebase: true
-      repository: updated-jumpbox-deployment
-
-- name: bump-stemcell-vsphere
-  serial: true
-  public: false
-  plan:
-  - aggregate:
-    - get: jumpbox-deployment
-    - get: stemcell
-      resource: stemcell-vsphere
-      trigger: true
-      params:
-        tarball: false
-  - task: bump-stemcell
-    file: jumpbox-deployment/ci/tasks/bump-stemcell.yml
-    params:
-      IAAS: vsphere
-  - task: unit-test
-    file: jumpbox-deployment/ci/tasks/unit-test.yml
-    input_mapping:
-      jumpbox-deployment: updated-jumpbox-deployment
-    params:
-      IAAS: vsphere
   - put: jumpbox-deployment
     params:
       rebase: true

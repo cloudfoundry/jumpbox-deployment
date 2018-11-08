@@ -9,8 +9,5 @@ image_resource:
 inputs:
   - name: jumpbox-deployment
 
-params:
-  IAAS:
-
 run:
   path: jumpbox-deployment/ci/tasks/unit-test.sh
