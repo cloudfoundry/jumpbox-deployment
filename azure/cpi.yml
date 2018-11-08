@@ -59,4 +59,8 @@
     default_security_group: ((default_security_group))
     ssh_user: vcap
     ssh_public_key: ((public_key))
-    ntp: [us.pool.ntp.org]
+
+- type: replace
+  path: /cloud_provider/properties/ntp?
+  value:
+    - us.pool.ntp.org
