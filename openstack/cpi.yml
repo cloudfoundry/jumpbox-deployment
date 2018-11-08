@@ -1,53 +1,44 @@
----
-- type: replace
-  path: /releases/-
+- path: /releases/-
+  type: replace
   value:
     name: bosh-openstack-cpi
-    url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-openstack-cpi-release?v=37
     sha1: 4507b907955909bc8036afc1cf6be339b306ca03
-
-- type: replace
-  path: /resource_pools/name=vms/stemcell?
+    url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-openstack-cpi-release?v=37
+- path: /resource_pools/name=vms/stemcell?
+  type: replace
   value:
-    url: https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-xenial-go_agent?v=97.17
-    sha1: 5e8bbd1ef95143016eb68633fa86b46bce624324
-
-# Configure sizes
-- type: replace
-  path: /resource_pools/name=vms/cloud_properties?
+    sha1: 47eeb32344097ad5a4e766fc642e27db19c6f9f4
+    url: https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-xenial-go_agent?v=170.5
+- path: /resource_pools/name=vms/cloud_properties?
+  type: replace
   value:
-    instance_type: m1.small
     availability_zone: ((az))
-
-- type: replace
-  path: /networks/name=private/subnets/0/cloud_properties?
+    instance_type: m1.small
+- path: /networks/name=private/subnets/0/cloud_properties?
+  type: replace
   value:
     net_id: ((net_id))
-
-# Add CPI job
-- type: replace
-  path: /cloud_provider/template?
+- path: /cloud_provider/template?
+  type: replace
   value:
     name: openstack_cpi
     release: bosh-openstack-cpi
-
-- type: replace
-  path: /cloud_provider/ssh_tunnel?
+- path: /cloud_provider/ssh_tunnel?
+  type: replace
   value:
     host: ((external_ip))
     port: 22
-    user: vcap
     private_key: ((private_key))
-
-- type: replace
-  path: /cloud_provider/properties/openstack?
+    user: vcap
+- path: /cloud_provider/properties/openstack?
+  type: replace
   value:
-    auth_url: ((auth_url))
-    username: ((openstack_username))
     api_key: ((openstack_password))
-    domain: ((openstack_domain))
-    project: ((openstack_project))
-    region: ((region))
+    auth_url: ((auth_url))
     default_key_name: ((default_key_name))
     default_security_groups: ((default_security_groups))
+    domain: ((openstack_domain))
     human_readable_vm_names: true
+    project: ((openstack_project))
+    region: ((region))
+    username: ((openstack_username))

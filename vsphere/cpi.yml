@@ -1,48 +1,41 @@
----
-- type: replace
-  path: /releases/-
+- path: /releases/-
+  type: replace
   value:
     name: bosh-vsphere-cpi
-    url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release?v=51
     sha1: 7996b34b4cdaf6f0f1b8955680774f2ec0741d05
-
-- type: replace
-  path: /resource_pools/name=vms/stemcell?
+    url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-vsphere-cpi-release?v=51
+- path: /resource_pools/name=vms/stemcell?
+  type: replace
   value:
-    url: https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-xenial-go_agent?v=97.17
-    sha1: 96b0549becb1ee8f513fd705f1c25ff38eaa44de
-
-# Configure sizes
-- type: replace
-  path: /resource_pools/name=vms/cloud_properties?
+    sha1: 48917d1a0abd0bea90c04b20d34d8957d5e66cac
+    url: https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-xenial-go_agent?v=170.5
+- path: /resource_pools/name=vms/cloud_properties?
+  type: replace
   value:
     cpu: 1
-    ram: 1_024
-    disk: 20_000
-
-- type: replace
-  path: /networks/name=private/subnets/0/cloud_properties?
-  value: {name: ((network_name))}
-
-# Add CPI job
-- type: replace
-  path: /cloud_provider/template?
+    disk: 20000
+    ram: 1024
+- path: /networks/name=private/subnets/0/cloud_properties?
+  type: replace
+  value:
+    name: ((network_name))
+- path: /cloud_provider/template?
+  type: replace
   value:
     name: vsphere_cpi
     release: bosh-vsphere-cpi
-
-- type: replace
-  path: /cloud_provider/properties/vcenter?
+- path: /cloud_provider/properties/vcenter?
+  type: replace
   value:
     address: ((vcenter_ip))
-    user: ((vcenter_user))
-    password: ((vcenter_password))
     datacenters:
-    - name: ((vcenter_dc))
-      vm_folder: ((vcenter_vms))
-      template_folder: ((vcenter_templates))
-      datastore_pattern: ((vcenter_ds))
-      persistent_datastore_pattern: ((vcenter_ds))
-      disk_path: ((vcenter_disks))
-      clusters:
+    - clusters:
       - ((vcenter_cluster)): {}
+      datastore_pattern: ((vcenter_ds))
+      disk_path: ((vcenter_disks))
+      name: ((vcenter_dc))
+      persistent_datastore_pattern: ((vcenter_ds))
+      template_folder: ((vcenter_templates))
+      vm_folder: ((vcenter_vms))
+    password: ((vcenter_password))
+    user: ((vcenter_user))

@@ -1,49 +1,43 @@
----
-- type: replace
-  path: /releases/-
+- path: /releases/-
+  type: replace
   value:
     name: bosh-aws-cpi
-    url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-aws-cpi-release?v=69
     sha1: 8abe70219244896ea6f7208fc01f2eac56179170
-
-- type: replace
-  path: /resource_pools/name=vms/stemcell?
+    url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-aws-cpi-release?v=69
+- path: /resource_pools/name=vms/stemcell?
+  type: replace
   value:
-    url: https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-xenial-go_agent?v=97.17
-    sha1: 311a13ebbcae93986bb2c5b989547695773b02e2
-
-# Configure AWS sizes
-- type: replace
-  path: /resource_pools/name=vms/cloud_properties?
+    sha1: 84f1df1cefea517258ca6e22a20bea66272dcfb9
+    url: https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-xenial-go_agent?v=170.5
+- path: /resource_pools/name=vms/cloud_properties?
+  type: replace
   value:
-    instance_type: t2.micro
-    ephemeral_disk: {size: 20_000, type: gp2}
     availability_zone: ((az))
-
-- type: replace
-  path: /networks/name=private/subnets/0/cloud_properties?
-  value: {subnet: ((subnet_id))}
-
-# Add CPI job
-- type: replace
-  path: /cloud_provider/template?
+    ephemeral_disk:
+      size: 20000
+      type: gp2
+    instance_type: t2.micro
+- path: /networks/name=private/subnets/0/cloud_properties?
+  type: replace
+  value:
+    subnet: ((subnet_id))
+- path: /cloud_provider/template?
+  type: replace
   value:
     name: aws_cpi
     release: bosh-aws-cpi
-
-- type: replace
-  path: /cloud_provider/ssh_tunnel?
+- path: /cloud_provider/ssh_tunnel?
+  type: replace
   value:
     host: ((external_ip))
     port: 22
-    user: vcap
     private_key: ((private_key))
-
-- type: replace
-  path: /cloud_provider/properties/aws?
+    user: vcap
+- path: /cloud_provider/properties/aws?
+  type: replace
   value:
     access_key_id: ((access_key_id))
-    secret_access_key: ((secret_access_key))
     default_key_name: ((default_key_name))
     default_security_groups: ((default_security_groups))
     region: ((region))
+    secret_access_key: ((secret_access_key))
