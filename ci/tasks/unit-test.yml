@@ -1,0 +1,16 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: bosh/main-bosh-docker
+
+inputs:
+  - name: jumpbox-deployment
+
+params:
+  IAAS:
+
+run:
+  path: jumpbox-deployment/ci/tasks/unit-test.sh
