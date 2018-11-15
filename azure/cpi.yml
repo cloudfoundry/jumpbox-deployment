@@ -49,7 +49,3 @@
     storage_account_name: ((storage_account_name))
     subscription_id: ((subscription_id))
     tenant_id: ((tenant_id))
-- path: /cloud_provider/properties/ntp?
-  type: replace
-  value:
-  - us.pool.ntp.org
