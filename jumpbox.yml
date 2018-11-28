@@ -38,6 +38,13 @@ instance_groups:
       users:
       - name: jumpbox
         public_key: ((jumpbox_ssh.public_key))
+  - name: tcp_keepalive
+    release: os-conf
+    properties:
+      tcp_keepalive:
+        time: 7200
+        interval: 75
+        probes: 9
   resource_pool: vms
   networks:
   - name: private
