@@ -8,11 +8,7 @@ image_resource:
 
 inputs:
 - name: jumpbox-deployment
-- name: stemcell-aws
 - name: stemcell-azure
-- name: stemcell-gcp
-- name: stemcell-openstack
-- name: stemcell-vsphere
 
 outputs:
 - name: updated-jumpbox-deployment

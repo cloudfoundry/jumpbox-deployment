@@ -1,15 +1,11 @@
 #!/bin/bash -exu
 
 create_stemcell_names() {
-  echo bosh-aws-xen-hvm-ubuntu-xenial-go_agent > stemcell-aws/name
   echo bosh-azure-hyperv-ubuntu-trusty-go_agent > stemcell-azure/name
-  echo bosh-google-kvm-ubuntu-xenial-go_agent > stemcell-gcp/name
-  echo bosh-openstack-kvm-ubuntu-xenial-go_agent > stemcell-openstack/name
-  echo bosh-vsphere-esxi-ubuntu-xenial-go_agent > stemcell-vsphere/name
 }
 
 bump_stemcell() {
-  local IAAS=${1?"IaaS is required (e.g. aws, azure, gcp, openstack, vsphere)"}
+  local IAAS=${1?"IaaS is required (e.g. azure)"}
 
   local STEMCELL_NAME="$(cat stemcell-${IAAS}/name)"
   local STEMCELL_VERSION="$(cat stemcell-${IAAS}/version)"
@@ -32,8 +28,8 @@ EOF
 }
 
 main() {
-  local STEMCELL_VERSION="$(cat stemcell-aws/version)"
-  local iaas_list=(aws azure gcp openstack vsphere)
+  local STEMCELL_VERSION="$(cat stemcell-azure/version)"
+  local iaas_list=(azure)
 
   create_stemcell_names
 
