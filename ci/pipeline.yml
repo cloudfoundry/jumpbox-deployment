@@ -13,22 +13,51 @@ resources:
   type: bosh-io-stemcell
   source:
     name: bosh-aws-xen-hvm-ubuntu-xenial-go_agent
+
+- name: cpi-aws
+  type: bosh-io-release
+  source:
+    repository: cloudfoundry/bosh-aws-cpi-release
+
 - name: stemcell-azure
   type: bosh-io-stemcell
   source:
     name: bosh-azure-hyperv-ubuntu-trusty-go_agent
+
+- name: cpi-azure
+  type: bosh-io-release
+  source:
+    repository: cloudfoundry/bosh-azure-cpi-release
+
 - name: stemcell-gcp
   type: bosh-io-stemcell
   source:
     name: bosh-google-kvm-ubuntu-xenial-go_agent
+
+- name: cpi-gcp
+  type: bosh-io-release
+  source:
+    repository: cloudfoundry/bosh-google-cpi-release
+
 - name: stemcell-openstack
   type: bosh-io-stemcell
   source:
     name: bosh-openstack-kvm-ubuntu-xenial-go_agent
+
+- name: cpi-openstack
+  type: bosh-io-release
+  source:
+    repository: cloudfoundry/bosh-openstack-cpi-release
+
 - name: stemcell-vsphere
   type: bosh-io-stemcell
   source:
     name: bosh-vsphere-esxi-ubuntu-xenial-go_agent
+
+- name: cpi-vsphere
+  type: bosh-io-release
+  source:
+    repository: cloudfoundry/bosh-vsphere-cpi-release
 
 resource_types:
 - name: bosh-io-stemcell
@@ -99,6 +128,43 @@ jobs:
           fi
   - task: bump-stemcell
     file: jumpbox-deployment/ci/tasks/bump-stemcell.yml
+  - task: unit-test
+    file: jumpbox-deployment/ci/tasks/unit-test.yml
+    input_mapping:
+      jumpbox-deployment: updated-jumpbox-deployment
+  - put: jumpbox-deployment
+    params:
+      rebase: true
+      repository: updated-jumpbox-deployment
+
+- name: bump-cpis
+  serial: true
+  public: false
+  plan:
+  - aggregate:
+    - get: jumpbox-deployment
+    - get: cpi-aws
+      trigger: true
+      params:
+        tarball: false
+    - get: cpi-azure
+      trigger: true
+      params:
+        tarball: false
+    - get: cpi-gcp
+      trigger: true
+      params:
+        tarball: false
+    - get: cpi-openstack
+      trigger: true
+      params:
+        tarball: false
+    - get: cpi-vsphere
+      trigger: true
+      params:
+        tarball: false
+  - task: bump-cpis
+    file: jumpbox-deployment/ci/tasks/bump-cpi.yml
   - task: unit-test
     file: jumpbox-deployment/ci/tasks/unit-test.yml
     input_mapping:

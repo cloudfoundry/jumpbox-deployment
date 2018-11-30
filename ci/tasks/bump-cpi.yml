@@ -1,0 +1,21 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: cfinfrastructure/deployment
+
+inputs:
+- name: jumpbox-deployment
+- name: cpi-aws
+- name: cpi-azure
+- name: cpi-gcp
+- name: cpi-openstack
+- name: cpi-vsphere
+
+outputs:
+- name: updated-jumpbox-deployment
+
+run:
+  path: jumpbox-deployment/ci/tasks/bump-cpi.sh
