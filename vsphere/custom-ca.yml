@@ -1,0 +1,11 @@
+---
+- type: replace
+  path: /instance_groups/name=jumpbox/properties?/vcenter?/connection_options?
+  value:
+    ca_cert: ((vcenter_ca_cert)) 
+
+- type: replace
+  path: /cloud_provider/properties/vcenter/connection_options?
+  value:
+    ca_cert: ((vcenter_ca_cert)) 
+
