@@ -1,0 +1,165 @@
+---
+resources:
+- name: jumpbox-deployment
+  type: git
+  source:
+    branch: master
+    uri: git@github.com:cloudfoundry/jumpbox-deployment.git
+    private_key: ((cf_infra_bot_github_user.private_key))
+    ignore_paths:
+      - README.md
+
+- name: stemcell-aws
+  type: bosh-io-stemcell
+  source:
+    name: bosh-aws-xen-hvm-ubuntu-xenial-go_agent
+
+- name: cpi-aws
+  type: bosh-io-release
+  source:
+    repository: cloudfoundry/bosh-aws-cpi-release
+
+- name: cpi-azure
+  type: bosh-io-release
+  source:
+    repository: cloudfoundry/bosh-azure-cpi-release
+
+- name: stemcell-gcp
+  type: bosh-io-stemcell
+  source:
+    name: bosh-google-kvm-ubuntu-xenial-go_agent
+
+- name: cpi-gcp
+  type: bosh-io-release
+  source:
+    repository: cloudfoundry/bosh-google-cpi-release
+
+- name: stemcell-openstack
+  type: bosh-io-stemcell
+  source:
+    name: bosh-openstack-kvm-ubuntu-xenial-go_agent
+
+- name: cpi-openstack
+  type: bosh-io-release
+  source:
+    repository: cloudfoundry/bosh-openstack-cpi-release
+
+- name: stemcell-vsphere
+  type: bosh-io-stemcell
+  source:
+    name: bosh-vsphere-esxi-ubuntu-xenial-go_agent
+
+- name: cpi-vsphere
+  type: bosh-io-release
+  source:
+    repository: cloudfoundry/bosh-vsphere-cpi-release
+
+resource_types:
+- name: bosh-io-stemcell
+  type: docker-image
+  source:
+    repository: concourse/bosh-io-stemcell-resource
+
+jobs:
+- name: unit-test
+  serial: true
+  public: false
+  plan:
+  - get: jumpbox-deployment
+    trigger: true
+  - task: unit-test
+    file: jumpbox-deployment/ci/tasks/unit-test.yml
+
+- name: bump-stemcells
+  serial: true
+  public: false
+  plan:
+  - aggregate:
+    - get: jumpbox-deployment
+    - get: stemcell-aws
+      trigger: true
+      params:
+        tarball: false
+    - get: stemcell-gcp
+      trigger: true
+      params:
+        tarball: false
+    - get: stemcell-openstack
+      trigger: true
+      params:
+        tarball: false
+    - get: stemcell-vsphere
+      trigger: true
+      params:
+        tarball: false
+  - task: same-version
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: cfinfrastructure/minimal
+      inputs:
+      - name: stemcell-aws
+      - name: stemcell-gcp
+      - name: stemcell-vsphere
+      - name: stemcell-openstack
+      run:
+        path: bash
+        args:
+        - -c
+        - |
+          #!/bin/bash -exu
+
+          count="$(for v in $(ls stemcell-*/version); do cat $v; echo ""; done | sort | uniq | wc -l)"
+          if [[ "$count" != "1" ]]; then
+            echo "Stemcells not with same version!"
+            exit 1
+          fi
+  - task: bump-stemcell
+    file: jumpbox-deployment/ci/tasks/bump-stemcell.yml
+  - task: unit-test
+    file: jumpbox-deployment/ci/tasks/unit-test.yml
+    input_mapping:
+      jumpbox-deployment: updated-jumpbox-deployment
+  - put: jumpbox-deployment
+    params:
+      rebase: true
+      repository: updated-jumpbox-deployment
+
+- name: bump-cpis
+  serial: true
+  public: false
+  plan:
+  - aggregate:
+    - get: jumpbox-deployment
+    - get: cpi-aws
+      trigger: true
+      params:
+        tarball: false
+    - get: cpi-azure
+      trigger: true
+      params:
+        tarball: false
+    - get: cpi-gcp
+      trigger: true
+      params:
+        tarball: false
+    - get: cpi-openstack
+      trigger: true
+      params:
+        tarball: false
+    - get: cpi-vsphere
+      trigger: true
+      params:
+        tarball: false
+  - task: bump-cpis
+    file: jumpbox-deployment/ci/tasks/bump-cpi.yml
+  - task: unit-test
+    file: jumpbox-deployment/ci/tasks/unit-test.yml
+    input_mapping:
+      jumpbox-deployment: updated-jumpbox-deployment
+  - put: jumpbox-deployment
+    params:
+      rebase: true
+      repository: updated-jumpbox-deployment

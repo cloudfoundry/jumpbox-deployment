@@ -1,47 +1,38 @@
----
-- type: replace
-  path: /releases/-
+- path: /releases/-
+  type: replace
   value:
     name: bosh-google-cpi
-    url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-google-cpi-release?v=27.0.1
-    sha1: 1cd4e89aa2ba7479ad65a68ae520d104590a2c5b
-
-- type: replace
-  path: /resource_pools/name=vms/stemcell?
+    sha1: 911a48764dbb24c50aedd4e3095d1603d385e135
+    url: https://bosh.io/d/github.com/cloudfoundry/bosh-google-cpi-release?v=27.0.1
+- path: /resource_pools/name=vms/stemcell?
+  type: replace
   value:
-    url: https://bosh.io/d/stemcells/bosh-google-kvm-ubuntu-xenial-go_agent?v=97.17
-    sha1: 61eb67dcebc84d4fa818708f79c1e37d811c99e9
-
-# Configure sizes
-- type: replace
-  path: /resource_pools/name=vms/cloud_properties?
+    sha1: b9498e64d1c812dc49328ce27d4e896dda3b2372
+    url: https://bosh.io/d/stemcells/bosh-google-kvm-ubuntu-xenial-go_agent?v=250.4
+- path: /resource_pools/name=vms/cloud_properties?
+  type: replace
   value:
-    zone: ((zone))
     machine_type: n1-standard-1
     root_disk_size_gb: 20
     root_disk_type: pd-standard
-
-- type: replace
-  path: /networks/name=private/subnets/0/cloud_properties?
+    zone: ((zone))
+- path: /networks/name=private/subnets/0/cloud_properties?
+  type: replace
   value:
     network_name: ((network))
     subnetwork_name: ((subnetwork))
     tags: ((tags))
-
-# Add CPI job
-- type: replace
-  path: /cloud_provider/template?
+- path: /cloud_provider/template?
+  type: replace
   value:
     name: google_cpi
     release: bosh-google-cpi
-
-- type: replace
-  path: /cloud_provider/properties/google?
+- path: /cloud_provider/properties/google?
+  type: replace
   value:
-    project: ((project_id))
     json_key: ((gcp_credentials_json))
-
-# Use GCP NTP
-- type: replace
-  path: /cloud_provider/properties/ntp
-  value: [169.254.169.254]
+    project: ((project_id))
+- path: /cloud_provider/properties/ntp
+  type: replace
+  value:
+  - 169.254.169.254
