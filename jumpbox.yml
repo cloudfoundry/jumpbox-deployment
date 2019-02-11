@@ -63,6 +63,7 @@ cloud_provider:
 variables:
 - name: mbus_bootstrap_password
   type: password
+
 - name: jumpbox_ssh
   type: ssh
 
