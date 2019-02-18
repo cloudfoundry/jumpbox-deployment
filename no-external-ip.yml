@@ -4,3 +4,10 @@
 - type: replace
   path: /cloud_provider/mbus
   value: https://mbus:((mbus_bootstrap_password))@((internal_ip)):6868
+
+- type: replace
+  path: /variables/name=mbus_bootstrap_ssl/options
+  value:
+    ca: default_ca
+    common_name: ((internal_ip))
+    alternative_names: [((internal_ip))]

@@ -2,13 +2,13 @@
   type: replace
   value:
     name: bosh-google-cpi
-    sha1: 911a48764dbb24c50aedd4e3095d1603d385e135
-    url: https://bosh.io/d/github.com/cloudfoundry/bosh-google-cpi-release?v=27.0.1
+    sha1: aba0451b5be65d8bbf3cf7f289c5432192892284
+    url: https://bosh.io/d/github.com/cloudfoundry/bosh-google-cpi-release?v=29.0.1
 - path: /resource_pools/name=vms/stemcell?
   type: replace
   value:
-    sha1: b9498e64d1c812dc49328ce27d4e896dda3b2372
-    url: https://bosh.io/d/stemcells/bosh-google-kvm-ubuntu-xenial-go_agent?v=250.4
+    sha1: 30e23a961d14d0aee7d71c15eca392170f049fbf
+    url: https://bosh.io/d/stemcells/bosh-google-kvm-ubuntu-xenial-go_agent?v=250.9
 - path: /resource_pools/name=vms/cloud_properties?
   type: replace
   value:
