@@ -12,8 +12,8 @@
 - path: /resource_pools/name=vms/cloud_properties?
   type: replace
   value:
-    machine_type: n1-standard-1
-    root_disk_size_gb: 20
+    machine_type: f1-micro
+    root_disk_size_gb: 5
     root_disk_type: pd-standard
     zone: ((zone))
 - path: /networks/name=private/subnets/0/cloud_properties?
