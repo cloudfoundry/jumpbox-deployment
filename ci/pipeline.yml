@@ -19,6 +19,11 @@ resources:
   source:
     repository: cloudfoundry/bosh-aws-cpi-release
 
+- name: stemcell-azure
+  type: bosh-io-stemcell
+  source:
+    name: bosh-azure-hyperv-ubuntu-trusty-go_agent
+
 - name: cpi-azure
   type: bosh-io-release
   source:
@@ -80,6 +85,10 @@ jobs:
       trigger: true
       params:
         tarball: false
+    - get: stemcell-azure
+      trigger: true
+      params:
+        tarball: false
     - get: stemcell-gcp
       trigger: true
       params:
@@ -101,6 +110,7 @@ jobs:
           repository: cfinfrastructure/minimal
       inputs:
       - name: stemcell-aws
+      - name: stemcell-azure
       - name: stemcell-gcp
       - name: stemcell-vsphere
       - name: stemcell-openstack
@@ -111,7 +121,7 @@ jobs:
         - |
           #!/bin/bash -exu
 
-          count="$(for v in $(ls stemcell-*/version); do cat $v; echo ""; done | sort | uniq | wc -l)"
+          count="$(for v in $(ls stemcell-*/version | grep -v azure); do cat $v; echo ""; done | sort | uniq | wc -l)"
           if [[ "$count" != "1" ]]; then
             echo "Stemcells not with same version!"
             exit 1
