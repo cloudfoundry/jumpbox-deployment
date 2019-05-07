@@ -121,7 +121,7 @@ jobs:
         - |
           #!/bin/bash -exu
 
-          count="$(for v in $(ls stemcell-*/version | grep -v azure); do cat $v; echo ""; done | sort | uniq | wc -l)"
+          count="$(for v in $(ls stemcell-*/version); do cat $v; echo ""; done | sort | uniq | wc -l)"
           if [[ "$count" != "1" ]]; then
             echo "Stemcells not with same version!"
             exit 1
