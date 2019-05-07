@@ -22,7 +22,7 @@ resources:
 - name: stemcell-azure
   type: bosh-io-stemcell
   source:
-    name: bosh-azure-hyperv-ubuntu-trusty-go_agent
+    name: bosh-azure-hyperv-ubuntu-xenial-go_agent
 
 - name: cpi-azure
   type: bosh-io-release
