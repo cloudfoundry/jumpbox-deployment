@@ -2,7 +2,7 @@
 
 create_stemcell_names() {
   echo bosh-aws-xen-hvm-ubuntu-xenial-go_agent > stemcell-aws/name
-  echo bosh-azure-hyperv-ubuntu-trusty-go_agent > stemcell-azure/name
+  echo bosh-azure-hyperv-ubuntu-xenial-go_agent > stemcell-azure/name
   echo bosh-google-kvm-ubuntu-xenial-go_agent > stemcell-gcp/name
   echo bosh-openstack-kvm-ubuntu-xenial-go_agent > stemcell-openstack/name
   echo bosh-vsphere-esxi-ubuntu-xenial-go_agent > stemcell-vsphere/name
