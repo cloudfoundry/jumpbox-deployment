@@ -19,7 +19,7 @@ resources:
   source:
     repository: cloudfoundry/bosh-aws-cpi-release
 
-- name: stemcell-azure
+- name: stemcell-azure-xenial
   type: bosh-io-stemcell
   source:
     name: bosh-azure-hyperv-ubuntu-xenial-go_agent
@@ -86,6 +86,7 @@ jobs:
       params:
         tarball: false
     - get: stemcell-azure
+      resource: stemcell-azure-xenial
       trigger: true
       params:
         tarball: false
