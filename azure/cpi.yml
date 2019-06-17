@@ -2,13 +2,13 @@
   type: replace
   value:
     name: bosh-azure-cpi
-    sha1: faebe370c143554fe471c3f6aafb523ab48c43ea
-    url: https://bosh.io/d/github.com/cloudfoundry/bosh-azure-cpi-release?v=35.5.0
+    sha1: 7bfcec67dbb31283cc4a9387028e2c85d10c245c
+    url: https://bosh.io/d/github.com/cloudfoundry/bosh-azure-cpi-release?v=36.0.1
 - path: /resource_pools/name=vms/stemcell?
   type: replace
   value:
-    sha1: 011164cb3bda4d76f5a3ec76ca11ecc746b38c77
-    url: https://bosh.io/d/stemcells/bosh-azure-hyperv-ubuntu-trusty-go_agent?v=3468.51
+    sha1: c02d0efd38b8939aee7a7829fce25570d36101a8
+    url: https://bosh.io/d/stemcells/bosh-azure-hyperv-ubuntu-xenial-go_agent?v=315.36
 - path: /resource_pools/name=vms/cloud_properties?
   type: replace
   value:

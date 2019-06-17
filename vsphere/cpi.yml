@@ -2,13 +2,13 @@
   type: replace
   value:
     name: bosh-vsphere-cpi
-    sha1: 549ed1b14d76190dc0e5c5f206a80840a1cefbbe
-    url: https://bosh.io/d/github.com/cloudfoundry/bosh-vsphere-cpi-release?v=52.1.0
+    sha1: b3587311b7f7403818e25989d9ed5eed99d65193
+    url: https://bosh.io/d/github.com/cloudfoundry/bosh-vsphere-cpi-release?v=52.1.1
 - path: /resource_pools/name=vms/stemcell?
   type: replace
   value:
-    sha1: 82232f714557e4becb4050703847da72461c5f2a
-    url: https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-xenial-go_agent?v=250.25
+    sha1: e9a684a336166ae7f588ab74c8795865de33410c
+    url: https://bosh.io/d/stemcells/bosh-vsphere-esxi-ubuntu-xenial-go_agent?v=315.36
 - path: /resource_pools/name=vms/cloud_properties?
   type: replace
   value:
