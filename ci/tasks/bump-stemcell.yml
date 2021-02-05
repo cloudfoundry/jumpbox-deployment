@@ -4,7 +4,7 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: cfinfrastructure/deployment
+    repository: cloudfoundry/cf-deployment-concourse-tasks
 
 inputs:
 - name: jumpbox-deployment
