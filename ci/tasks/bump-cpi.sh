@@ -12,7 +12,7 @@ function bump_cpi() {
 
   echo "Checking to see if ${iaas} CPI needs to be bumped..."
 
-  release_name="$(basename "cpi-${iaas}/url" | sed 's/^\(.*\)-release\?.*$/\1/')"
+  release_name="$(basename "$(cat "cpi-${iaas}/url")" | sed 's/^\(.*\)-release\?.*$/\1/')"
   release_sha="$(cat "${task_dir}/cpi-${iaas}/sha1")"
   release_url="$(cat "${task_dir}/cpi-${iaas}/url")"
   release_version="$(cat "${task_dir}/cpi-${iaas}/version")"
