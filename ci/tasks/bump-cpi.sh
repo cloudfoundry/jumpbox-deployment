@@ -1,60 +1,63 @@
-#!/bin/bash -exu
+#!/usr/bin/env bash
 
-create_cpi_names() {
-  echo bosh-aws-cpi > cpi-aws/name
-  echo bosh-azure-cpi > cpi-azure/name
-  echo bosh-google-cpi > cpi-gcp/name
-  echo bosh-openstack-cpi > cpi-openstack/name
-  echo bosh-vsphere-cpi > cpi-vsphere/name
-}
+set -euo pipefail
 
-bump_cpi() {
-  local IAAS=${1?"IaaS is required (e.g. aws, azure, gcp, openstack, vsphere)"}
+function bump_cpi() {
+  local iaas=${1}
+  local task_dir="${2}"
+  local release_name
+  local release_sha
+  local release_url
+  local release_version
 
-  local RELEASE_NAME="$(cat cpi-${IAAS}/name)"
-  local RELEASE_VERSION="$(cat cpi-${IAAS}/version)"
-  local RELEASE_URL="https://bosh.io/d/github.com/cloudfoundry/${RELEASE_NAME}-release?v=$RELEASE_VERSION"
-  local RELEASE_SHA="$(cat cpi-${IAAS}/sha1)"
+  echo "Checking to see if ${iaas} CPI needs to be bumped..."
+
+  release_name="$(basename "cpi-${iaas}/url" | sed 's/^\(.*\)-release\?.*$/\1/')"
+  release_sha="$(cat "${task_dir}/cpi-${iaas}/sha1")"
+  release_url="$(cat "${task_dir}/cpi-${iaas}/url")"
+  release_version="$(cat "${task_dir}/cpi-${iaas}/version")"
 
   cat > /tmp/bump-cpi-ops.yml <<EOF
 ---
 - type: replace
   path: /path=~1releases~1-/value
   value:
-    name: ${RELEASE_NAME}
-    url: ${RELEASE_URL}
-    sha1: ${RELEASE_SHA}
+    name: ${release_name}
+    url: ${release_url}
+    sha1: ${release_sha}
 EOF
 
   bosh interpolate -o /tmp/bump-cpi-ops.yml \
-    jumpbox-deployment/${IAAS}/cpi.yml > /tmp/cpi.yml
+    "${iaas}/cpi.yml" > /tmp/cpi.yml
 
-  cp /tmp/cpi.yml jumpbox-deployment/${IAAS}/cpi.yml
+  mv /tmp/cpi.yml "${iaas}/cpi.yml"
 
-  pushd jumpbox-deployment
-    local changed="$(git diff --name-only | grep ${IAAS}/cpi.yml)"
-    if [[ -n "${changed}" ]]; then
+  local changed=""
+  changed="$(git diff --name-only | grep "${iaas}/cpi.yml")"
 
-        git config user.email "cf-infrastructure@pivotal.io"
-        git config user.name "cf-infra-bot"
+  if [[ -n "${changed}" ]]; then
+    git diff "${iaas}/cpi.yml"
 
-        git add .
-        git commit -m "Bump CPI ${IAAS} to ${RELEASE_VERSION}"
+    git config user.email "cf-infrastructure@pivotal.io"
+    git config user.name "cf-infra-bot"
 
-    fi
-  popd
+    git add .
+    git commit -m "Bump ${iaas} CPI to ${release_version}"
+  fi
 }
 
-main() {
+function main() {
   local iaas_list=(aws azure gcp openstack vsphere)
+  local task_dir="${1}"
 
-  create_cpi_names
-
-  for iaas in "${iaas_list[@]}"; do
-    bump_cpi $iaas
-  done
+  pushd jumpbox-deployment
+    for iaas in "${iaas_list[@]}"; do
+      bump_cpi "${iaas}" "${task_dir}"
+      echo
+    done
+  popd
 
   cp -R jumpbox-deployment/. updated-jumpbox-deployment
 }
 
-main "$@"
+main "${PWD}"

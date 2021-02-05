@@ -1,8 +1,12 @@
-#!/bin/bash -exu
+#!/usr/bin/env bash
 
-main() {
-  export PROJECT_DIR=$PWD/jumpbox-deployment
+set -eu
+
+function main() {
+  local task_dir="${1}"
+
+  export PROJECT_DIR="${task_dir}/jumpbox-deployment"
   jumpbox-deployment/scripts/test
 }
 
-main "$@"
+main "${PWD}"

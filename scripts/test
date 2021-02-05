@@ -1,18 +1,20 @@
-#!/bin/bash -eu
+#!/usr/bin/env bash
+
+set -eu
 
 vars_store_prefix="/tmp/jumpbox-deployment-test"
 
 # Only used for tests below. Ignore it.
 function bosh() {
   shift 1
-  command bosh int --var-errs --var-errs-unused ${@//--state=*/} > /dev/null
+  command bosh int --var-errs --var-errs-unused "${@//--state=*/}" > /dev/null
 }
 
-aws() {
+function aws() {
   echo "- AWS"
   bosh create-env jumpbox.yml \
     -o aws/cpi.yml \
-    --vars-store $(mktemp ${vars_store_prefix}.XXXXXX) \
+    --vars-store "$(mktemp "${vars_store_prefix}.XXXXXX")" \
     -v internal_cidr=test \
     -v internal_gw=test \
     -v internal_ip=test \
@@ -22,18 +24,18 @@ aws() {
     -v az=test \
     -v region=test \
     -v default_key_name=test \
-    -v default_security_groups=[test] \
+    -v default_security_groups='[test]' \
     -v private_key=test \
     -v subnet_id=test \
     > /dev/null
 }
 
 
-azure() {
+function azure() {
   echo "- Azure"
   bosh create-env jumpbox.yml \
     -o azure/cpi.yml \
-    --vars-store $(mktemp ${vars_store_prefix}.XXXXXX) \
+    --vars-store "$(mktemp "${vars_store_prefix}.XXXXXX")" \
     -v internal_cidr=test \
     -v internal_gw=test \
     -v internal_ip=test \
@@ -53,11 +55,11 @@ azure() {
     > /dev/null
 }
 
-gcp() {
+function gcp() {
   echo "- GCP"
   bosh create-env jumpbox.yml \
     -o gcp/cpi.yml \
-    --vars-store $(mktemp ${vars_store_prefix}.XXXXXX) \
+    --vars-store "$(mktemp "${vars_store_prefix}.XXXXXX")" \
     -v internal_cidr=test \
     -v internal_gw=test \
     -v internal_ip=test \
@@ -65,17 +67,17 @@ gcp() {
     -v gcp_credentials_json=test \
     -v project_id=test \
     -v zone=test \
-    -v tags=[test] \
+    -v tags='[test]' \
     -v network=test \
     -v subnetwork=test \
     > /dev/null
 }
 
-openstack() {
+function openstack() {
   echo "- Openstack"
   bosh create-env jumpbox.yml \
     -o openstack/cpi.yml \
-    --vars-store $(mktemp ${vars_store_prefix}.XXXXXX) \
+    --vars-store "$(mktemp "${vars_store_prefix}.XXXXXX")" \
     -v internal_cidr=test \
     -v internal_gw=test \
     -v internal_ip=test \
@@ -94,12 +96,12 @@ openstack() {
     > /dev/null
 }
 
-vsphere() {
+function vsphere() {
   echo "- vSphere"
   bosh create-env jumpbox.yml \
     -o vsphere/cpi.yml \
     -o no-external-ip.yml \
-    --vars-store $(mktemp ${vars_store_prefix}.XXXXXX) \
+    --vars-store "$(mktemp "${vars_store_prefix}.XXXXXX")" \
     -v internal_cidr=test \
     -v internal_gw=test \
     -v internal_ip=test \
@@ -116,16 +118,16 @@ vsphere() {
     > /dev/null
 }
 
-clean_tmp() {
+function clean_tmp() {
   rm -f ${vars_store_prefix}.*
 }
 
-main() {
+function main() {
   set +u
   local IAAS=$1
   set -u
 
-  pushd $PROJECT_DIR > /dev/null
+  pushd "${PROJECT_DIR}" > /dev/null
     case "${IAAS}" in
       aws)
         aws
