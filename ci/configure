@@ -1,7 +1,0 @@
-#!/bin/bash -eu
-
-main() {
-  fly -t ovoc sp -p jumpbox-deployment -c $PROJECT_DIR/ci/pipeline.yml
-}
-
-main "$@"
