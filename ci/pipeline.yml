@@ -112,7 +112,7 @@ jobs:
       run:
         path: bash
         args:
-        - -ecux
+        - -eu
         - |
           count="$(for v in $(ls stemcell-*/version); do cat $v; echo ""; done | sort -u | wc -l)"
           if [[ "$count" != "1" ]]; then
