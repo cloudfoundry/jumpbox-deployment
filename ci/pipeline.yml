@@ -112,8 +112,12 @@ jobs:
       run:
         path: bash
         args:
-        - -eu
+        - -c
         - |
+          #!/bin/bash
+
+          set -eu
+
           count="$(for v in $(ls stemcell-*/version); do cat $v; echo ""; done | sort -u | wc -l)"
           if [[ "$count" != "1" ]]; then
             echo "Stemcells version mismatch detected."
