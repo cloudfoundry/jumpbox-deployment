@@ -5,13 +5,20 @@ set -euo pipefail
 function bump_stemcell() {
   local iaas=${1}
   local task_dir="${2}"
+
+  local stemcell_name
   local stemcell_sha
   local stemcell_url
+  local stemcell_version
 
   echo "Bumping ${iaas} stemcell..."
 
   stemcell_sha="$(cat "${task_dir}/stemcell-${iaas}/sha1")"
   stemcell_url="$(cat "${task_dir}/stemcell-${iaas}/url")"
+  stemcell_version="$(cat "${task_dir}/stemcell-${iaas}/version")"
+  stemcell_name="bosh$(basename "${stemcell_url}" .tgz | awk -F "${stemcell_version}" '{ print $2 }')"
+  # Rewrite the stemcell URL to point to bosh.io
+  stemcell_url="https://bosh.io/d/stemcells/${stemcell_name}?v=${stemcell_version}"
 
   cat > /tmp/bump-stemcell-ops.yml <<EOF
 ---
