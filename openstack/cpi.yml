@@ -1,7 +1,7 @@
 - path: /releases/-
   type: replace
   value:
-    name: bosh-openstack-cpi
+    name: null
     sha1: 7c9be83eb11214db85ef5320f26ec9db8fab353f
     url: https://bosh.io/d/github.com/cloudfoundry/bosh-openstack-cpi-release?v=44
 - path: /resource_pools/name=vms/stemcell?
