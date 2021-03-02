@@ -1,7 +1,7 @@
 - path: /releases/-
   type: replace
   value:
-    name: bosh-azure-cpi
+    name: null
     sha1: 4d09def901e732238b35c502ea351216dcabb86a
     url: https://bosh.io/d/github.com/cloudfoundry/bosh-azure-cpi-release?v=37.3.0
 - path: /resource_pools/name=vms/stemcell?
