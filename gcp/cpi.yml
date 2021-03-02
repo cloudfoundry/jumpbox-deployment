@@ -1,7 +1,7 @@
 - path: /releases/-
   type: replace
   value:
-    name: bosh-google-cpi
+    name: null
     sha1: 723cbba1e027bf9b628fe413ba16d90415057edc
     url: https://bosh.io/d/github.com/cloudfoundry/bosh-google-cpi-release?v=40.0.4
 - path: /resource_pools/name=vms/stemcell?
