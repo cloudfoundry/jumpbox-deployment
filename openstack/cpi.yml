@@ -7,8 +7,8 @@
 - path: /resource_pools/name=vms/stemcell?
   type: replace
   value:
-    sha1: d3f9af952474cd298489d43b0a90f5f769ce7055
-    url: https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-xenial-go_agent?v=621.113
+    sha1: 556a3de38ea5c6fa643581c4cac430515bd30d7d
+    url: https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-xenial-go_agent?v=621.115
 - path: /resource_pools/name=vms/cloud_properties?
   type: replace
   value:
