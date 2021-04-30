@@ -12,7 +12,7 @@ resources:
 - name: stemcell-aws
   type: bosh-io-stemcell
   source:
-    name: bosh-aws-xen-hvm-ubuntu-xenial-go_agent
+    name: bosh-aws-xen-hvm-ubuntu-bionic-go_agent
 
 - name: cpi-aws
   type: bosh-io-release
@@ -22,7 +22,7 @@ resources:
 - name: stemcell-azure
   type: bosh-io-stemcell
   source:
-    name: bosh-azure-hyperv-ubuntu-xenial-go_agent
+    name: bosh-azure-hyperv-ubuntu-bionic-go_agent
 
 - name: cpi-azure
   type: bosh-io-release
@@ -32,7 +32,7 @@ resources:
 - name: stemcell-gcp
   type: bosh-io-stemcell
   source:
-    name: bosh-google-kvm-ubuntu-xenial-go_agent
+    name: bosh-google-kvm-ubuntu-bionic-go_agent
 
 - name: cpi-gcp
   type: bosh-io-release
@@ -42,7 +42,7 @@ resources:
 - name: stemcell-openstack
   type: bosh-io-stemcell
   source:
-    name: bosh-openstack-kvm-ubuntu-xenial-go_agent
+    name: bosh-openstack-kvm-ubuntu-bionic-go_agent
 
 - name: cpi-openstack
   type: bosh-io-release
@@ -52,7 +52,7 @@ resources:
 - name: stemcell-vsphere
   type: bosh-io-stemcell
   source:
-    name: bosh-vsphere-esxi-ubuntu-xenial-go_agent
+    name: bosh-vsphere-esxi-ubuntu-bionic-go_agent
 
 - name: cpi-vsphere
   type: bosh-io-release
