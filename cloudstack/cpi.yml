@@ -1,0 +1,60 @@
+---
+
+- path: /releases/-
+  type: replace
+  value:
+    name: bosh-go-cpi-cloudstack
+    sha1: cdfb6b605b05024895358ec5a9f36b45f0e2a70f
+    url: https://github.com/orange-cloudfoundry/bosh-go-cpi-cloudstack/releases/download/v2.3.0/bosh-go-cpi-cloudstack-2.3.0.tgz
+    version: 2.3.0
+
+- path: /resource_pools/name=vms/stemcell?
+  type: replace
+  value:
+    # currently the stemcells are not released to bosh.io and you need to build them yourself
+    # you are welcome to submit a request (or make yourself known in https://github.com/cloudfoundry/bosh-linux-stemcell-builder/pull/175)
+    url: ((stemcell_url))
+    sha1: ((stemcell_sha1))
+
+- path: /resource_pools/name=vms/cloud_properties?
+  type: replace
+  value:
+    compute_offering: ((cloudstack_compute_offering))
+    disk: 10_000
+    ephemeral_disk_offering: shared.custom
+    root_disk_size: 15_000
+
+- path: /networks/name=private/subnets/0/cloud_properties?
+  type: replace
+  value:
+    name: ((network_name))
+
+- path: /cloud_provider/template?
+  type: replace
+  value:
+    name: cloudstack_cpi
+    release: bosh-go-cpi-cloudstack
+
+- path: /cloud_provider/ssh_tunnel?
+  type: replace
+  value:
+    host: ((external_ip))
+    port: 22
+    private_key: ((private_key))
+    user: vcap
+
+- path: /cloud_provider/properties/cloudstack?
+  type: replace
+  value:
+    endpoint: ((cloudstack_endpoint))
+    api_key: ((cloudstack_api_key))
+    secret_access_key: ((cloudstack_secret_access_key))
+    default_key_name: ((cloudstack_default_key_name))
+    default_zone: ((cloudstack_zone))
+
+- type: replace
+  path: /cloud_provider/properties/agent/blobstore?
+  value:
+    provider: local
+    options:
+      blobstore_path: /var/vcap/micro_bosh/data/cache
