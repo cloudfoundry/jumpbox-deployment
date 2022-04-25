@@ -7,8 +7,8 @@
 - path: /resource_pools/name=vms/stemcell?
   type: replace
   value:
-    sha1: 454600bab1a7135b029eb2e6fe58634b3211c0d8
-    url: https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-bionic-go_agent?v=1.76
+    sha1: e7c674ecd67c2cd8bd335ac1e9b5158ed649625d
+    url: https://bosh.io/d/stemcells/bosh-openstack-kvm-ubuntu-bionic-go_agent?v=1.79
 - path: /resource_pools/name=vms/cloud_properties?
   type: replace
   value:
