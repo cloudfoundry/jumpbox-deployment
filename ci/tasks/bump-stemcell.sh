@@ -33,7 +33,7 @@ EOF
     "${iaas}/cpi.yml" > /tmp/cpi.yml
 
   mv /tmp/cpi.yml "${iaas}/cpi.yml"
-  git diff "${iaas}/cpi.yml"
+  git --no-pager diff "${iaas}/cpi.yml"
 }
 
 function main() {
