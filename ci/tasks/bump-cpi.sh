@@ -34,11 +34,11 @@ EOF
 
   local changed=""
   set +e
-  changed="$(git diff --name-only | grep "${iaas}/cpi.yml")"
+  changed="$(git --no-pager diff --name-only | grep "${iaas}/cpi.yml")"
   set -e
 
   if [[ -n "${changed}" ]]; then
-    git diff "${iaas}/cpi.yml"
+    git --no-pager diff "${iaas}/cpi.yml"
 
     git config user.email "cf-infrastructure@pivotal.io"
     git config user.name "cf-infra-bot"
