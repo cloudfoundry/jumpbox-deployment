@@ -7,8 +7,8 @@
 - path: /resource_pools/name=vms/stemcell?
   type: replace
   value:
-    sha1: 7c3201ab466a23230cbbf0c6a4b0efed47408153
-    url: https://bosh.io/d/stemcells/bosh-google-kvm-ubuntu-jammy-go_agent?v=1.775
+    sha1: a496534f86d87280a35439343aaaa2417e2cba53
+    url: https://bosh.io/d/stemcells/bosh-google-kvm-ubuntu-jammy-go_agent?v=1.785
 - path: /resource_pools/name=vms/cloud_properties?
   type: replace
   value:
