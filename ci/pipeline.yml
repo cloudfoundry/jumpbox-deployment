@@ -59,6 +59,13 @@ resources:
   source:
     repository: cloudfoundry/bosh-vsphere-cpi-release
 
+- name: cf-deployment-concourse-tasks
+  type: registry-image
+  source:
+    repository: cloudfoundry/cf-deployment-concourse-tasks
+    username: ((dockerhub_username))
+    password: ((dockerhub_password))
+
 jobs:
 - name: unit-test
   serial: true
@@ -74,6 +81,7 @@ jobs:
   public: false
   plan:
   - in_parallel:
+    - get: cf-deployment-concourse-tasks
     - get: jumpbox-deployment
     - get: stemcell-aws
       trigger: true
@@ -97,12 +105,9 @@ jobs:
       trigger: true
 
   - task: same-version
+    image: cf-deployment-concourse-tasks
     config:
       platform: linux
-      image_resource:
-        type: docker-image
-        source:
-          repository: cloudfoundry/cf-deployment-concourse-tasks
       inputs:
       - name: stemcell-aws
       - name: stemcell-azure
@@ -142,6 +147,7 @@ jobs:
   public: false
   plan:
   - in_parallel:
+    - get: cf-deployment-concourse-tasks
     - get: jumpbox-deployment
     - get: cpi-aws
       params:
@@ -166,9 +172,11 @@ jobs:
 
   - task: bump-cpis
     file: jumpbox-deployment/ci/tasks/bump-cpi.yml
+    image: cf-deployment-concourse-tasks
 
   - task: unit-test
     file: jumpbox-deployment/ci/tasks/unit-test.yml
+    image: cf-deployment-concourse-tasks
     input_mapping:
       jumpbox-deployment: updated-jumpbox-deployment
 
