@@ -71,6 +71,7 @@ jobs:
   serial: true
   public: false
   plan:
+  - get: cf-deployment-concourse-tasks
   - get: jumpbox-deployment
     trigger: true
   - task: unit-test
