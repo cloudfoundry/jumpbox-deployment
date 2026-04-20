@@ -74,6 +74,7 @@ jobs:
   - get: jumpbox-deployment
     trigger: true
   - task: unit-test
+    image: cf-deployment-concourse-tasks
     file: jumpbox-deployment/ci/tasks/unit-test.yml
 
 - name: bump-stemcells
@@ -131,9 +132,11 @@ jobs:
 
   - task: bump-stemcell
     file: jumpbox-deployment/ci/tasks/bump-stemcell.yml
+    image: cf-deployment-concourse-tasks
 
   - task: unit-test
     file: jumpbox-deployment/ci/tasks/unit-test.yml
+    image: cf-deployment-concourse-tasks
     input_mapping:
       jumpbox-deployment: updated-jumpbox-deployment
 
