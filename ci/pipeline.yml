@@ -3,7 +3,7 @@ resources:
 - name: jumpbox-deployment
   type: git
   source:
-    branch: master
+    branch: main
     uri: git@github.com:cloudfoundry/jumpbox-deployment.git
     private_key: ((jumpbox_deployment_readwrite_deploy_key.private_key))
     ignore_paths:
